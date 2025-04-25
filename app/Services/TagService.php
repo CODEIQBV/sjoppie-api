@@ -33,12 +33,12 @@ class TagService
     public function getTag(int|string $identifier): ?Tag
     {
         return Tag::where(is_numeric($identifier) ? 'id' : 'slug', $identifier)
-            ->with(['products', 'categories'])
+            ->with(['products'])
             ->first();
     }
 
     public function getAllTags()
     {
-        return Tag::with(['products', 'categories'])->get();
+        return Tag::with(['products'])->get();
     }
 } 

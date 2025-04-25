@@ -78,7 +78,7 @@ class ProductService
         // Create initial price record if provided
         if (isset($data['price'])) {
             $this->priceService->createPrice($product, [
-                'amount' => $data['price']['amount'] ?? 0,
+                'price' => $data['price']['amount'] ?? 0,
                 'currency' => $data['price']['currency'] ?? 'EUR',
                 'starts_at' => now(),
             ]);
@@ -87,7 +87,11 @@ class ProductService
         // Create images if provided
         if (isset($data['images'])) {
             foreach ($data['images'] as $imageData) {
-                $this->imageService->createImage($product, $imageData);
+                $this->imageService->createImage($product, [
+                    'path' => $imageData['url'],
+                    'alt_text' => $imageData['alt'] ?? null,
+                    'order' => $imageData['order'] ?? 0,
+                ]);
             }
         }
 
@@ -108,7 +112,7 @@ class ProductService
                 // Create price for variant if provided
                 if (isset($variantData['price'])) {
                     $this->priceService->createPrice($variant, [
-                        'amount' => $variantData['price']['amount'] ?? 0,
+                        'price' => $variantData['price']['amount'] ?? 0,
                         'currency' => $variantData['price']['currency'] ?? 'EUR',
                         'starts_at' => now(),
                     ]);

@@ -57,7 +57,7 @@ class ProductController extends Controller
                 'description' => 'nullable|string',
                 'seo_title' => 'nullable|string|max:255',
                 'seo_description' => 'nullable|string',
-                'slug' => 'nullable|string|unique:products,slug',
+                'slug' => 'nullable|string|max:255',
                 'status' => 'required|in:active,concept',
                 
                 // Stock data
@@ -175,7 +175,7 @@ class ProductController extends Controller
                 'description' => 'nullable|string',
                 'seo_title' => 'nullable|string|max:255',
                 'seo_description' => 'nullable|string',
-                'slug' => 'sometimes|string|unique:products,slug,' . $product,
+                'slug' => 'sometimes|string|max:255',
                 'status' => 'sometimes|in:active,concept',
             ]);
 
