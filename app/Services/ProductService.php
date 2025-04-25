@@ -8,6 +8,15 @@ use Illuminate\Support\Str;
 
 class ProductService
 {
+    public function __construct(
+        private readonly ProductVariantService $variantService,
+        private readonly ProductPriceService $priceService,
+        private readonly ProductStockService $stockService,
+        private readonly ProductImageService $imageService,
+        private readonly CategoryService $categoryService,
+        private readonly TagService $tagService
+    ) {}
+
     /**
      * Get all products with pagination.
      *
@@ -17,6 +26,7 @@ class ProductService
     public function getAllProducts(int $perPage = 10): LengthAwarePaginator
     {
         return Product::query()
+            ->with(['variants', 'prices', 'stock', 'images', 'categories', 'tags'])
             ->latest()
             ->paginate($perPage);
     }
@@ -29,7 +39,9 @@ class ProductService
      */
     public function getProduct(int|string $identifier): ?Product
     {
-        return Product::where(is_numeric($identifier) ? 'id' : 'slug', $identifier)->first();
+        return Product::where(is_numeric($identifier) ? 'id' : 'slug', $identifier)
+            ->with(['variants', 'prices', 'stock', 'images', 'categories', 'tags'])
+            ->first();
     }
 
     /**
@@ -85,5 +97,15 @@ class ProductService
         }
 
         return false;
+    }
+
+    public function syncCategories(Product $product, array $categoryIds): void
+    {
+        $product->categories()->sync($categoryIds);
+    }
+
+    public function syncTags(Product $product, array $tagIds): void
+    {
+        $product->tags()->sync($tagIds);
     }
 } 

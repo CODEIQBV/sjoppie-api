@@ -1,199 +1,91 @@
-# API Documentation
+# Sjoppie API Documentation
+
+## Overview
+
+The Sjoppie API provides a comprehensive set of endpoints for managing products, variants, prices, stock, images, categories, and tags. The API follows RESTful principles and uses JSON for request and response bodies.
 
 ## Authentication
 
-All API requests must include an `X-API-Key` header with a valid API key.
+All API requests require an API key to be included in the request header:
 
-```http
-X-API-Key: your-api-key-here
+```
+X-API-Key: your-api-key
 ```
 
 ## Base URL
 
 ```
-https://your-api-domain.com/api/v1
+https://api.sjoppie.nl/v1
 ```
 
-## Products
+## Response Format
 
-### List Products
-
-```http
-GET /products
-```
-
-#### Query Parameters
-
-| Parameter | Type   | Description                    | Default |
-|-----------|--------|--------------------------------|---------|
-| per_page  | int    | Number of items per page       | 10      |
-| page      | int    | Page number                    | 1       |
-
-#### Response
+All responses follow a standardized format:
 
 ```json
 {
-    "data": [
-        {
-            "id": 1,
-            "name": "Product Name",
-            "description": "Product Description",
-            "seo_title": "SEO Title",
-            "seo_description": "SEO Description",
-            "slug": "product-name",
-            "status": "active",
-            "created_at": "2024-03-21T12:00:00.000000Z",
-            "updated_at": "2024-03-21T12:00:00.000000Z"
-        }
-    ],
-    "links": {
-        "first": "http://api.example.com/products?page=1",
-        "last": "http://api.example.com/products?page=1",
-        "prev": null,
-        "next": null
+    "success": true,
+    "status": 200,
+    "data": {
+        // Response data
     },
-    "meta": {
-        "current_page": 1,
-        "from": 1,
-        "last_page": 1,
-        "path": "http://api.example.com/products",
-        "per_page": 10,
-        "to": 1,
-        "total": 1
-    }
+    "timestamp": "2024-04-25T12:00:00Z"
 }
 ```
 
-### Get Single Product
+## Error Handling
 
-```http
-GET /products/{slug}
-```
-
-#### Response
-
-```json
-{
-    "id": 1,
-    "name": "Product Name",
-    "description": "Product Description",
-    "seo_title": "SEO Title",
-    "seo_description": "SEO Description",
-    "slug": "product-name",
-    "status": "active",
-    "created_at": "2024-03-21T12:00:00.000000Z",
-    "updated_at": "2024-03-21T12:00:00.000000Z"
-}
-```
-
-### Create Product
-
-```http
-POST /products
-```
-
-#### Request Body
-
-```json
-{
-    "name": "Product Name",
-    "description": "Product Description",
-    "seo_title": "SEO Title",
-    "seo_description": "SEO Description",
-    "slug": "product-name",
-    "status": "active"
-}
-```
-
-#### Response
-
-```json
-{
-    "id": 1,
-    "name": "Product Name",
-    "description": "Product Description",
-    "seo_title": "SEO Title",
-    "seo_description": "SEO Description",
-    "slug": "product-name",
-    "status": "active",
-    "created_at": "2024-03-21T12:00:00.000000Z",
-    "updated_at": "2024-03-21T12:00:00.000000Z"
-}
-```
-
-### Update Product
-
-```http
-PUT /products/{slug}
-```
-
-#### Request Body
-
-```json
-{
-    "name": "Updated Product Name",
-    "status": "concept"
-}
-```
-
-#### Response
-
-```json
-{
-    "id": 1,
-    "name": "Updated Product Name",
-    "description": "Product Description",
-    "seo_title": "SEO Title",
-    "seo_description": "SEO Description",
-    "slug": "updated-product-name",
-    "status": "concept",
-    "created_at": "2024-03-21T12:00:00.000000Z",
-    "updated_at": "2024-03-21T12:00:00.000000Z"
-}
-```
-
-### Delete Product
-
-```http
-DELETE /products/{slug}
-```
-
-#### Response
-
-Status: 204 No Content
-
-## Error Responses
-
-### Validation Error (422)
+Errors are returned with appropriate HTTP status codes and follow this format:
 
 ```json
 {
     "success": false,
+    "status": 400,
+    "message": "Error message",
     "errors": {
-        "name": [
-            "The name field is required."
-        ],
-        "status": [
-            "The selected status is invalid."
-        ]
-    }
+        // Validation errors if applicable
+    },
+    "timestamp": "2024-04-25T12:00:00Z"
 }
 ```
 
-### Not Found Error (404)
+## Table of Contents
 
-```json
-{
-    "success": false,
-    "message": "Product not found"
-}
+1. [Products](products.md)
+   - [Product Management](products.md#product-management)
+   - [Product Variants](products.md#product-variants)
+   - [Product Prices](products.md#product-prices)
+   - [Product Stock](products.md#product-stock)
+   - [Product Images](products.md#product-images)
+
+2. [Categories](categories.md)
+   - [Category Management](categories.md#category-management)
+   - [Category Tree](categories.md#category-tree)
+
+3. [Tags](tags.md)
+   - [Tag Management](tags.md#tag-management)
+
+## Rate Limiting
+
+The API is rate-limited to prevent abuse. The current limits are:
+
+- 100 requests per minute per API key
+- 1000 requests per hour per API key
+
+Rate limit headers are included in all responses:
+
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 99
+X-RateLimit-Reset: 1620000000
 ```
 
-### Unauthorized Error (401)
+## Versioning
 
-```json
-{
-    "success": false,
-    "message": "Invalid API key"
-}
-``` 
+The API is versioned to ensure backward compatibility. The current version is v1.
+
+## Support
+
+For support, please contact:
+- Email: support@sjoppie.nl
+- Phone: +31 (0)20 123 4567 

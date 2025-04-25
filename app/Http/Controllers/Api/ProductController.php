@@ -27,11 +27,6 @@ class ProductController extends Controller
 
             return response()->json($products);
         } catch (Throwable $e) {
-            Log::error('Error fetching products: ' . $e->getMessage(), [
-                'exception' => $e,
-                'trace' => $e->getTraceAsString()
-            ]);
-
             $response = [
                 'success' => false,
                 'message' => config('app.debug') ? $e->getMessage() : 'An error occurred while fetching products',
@@ -77,11 +72,6 @@ class ProductController extends Controller
 
             return response()->json($product, 201);
         } catch (Throwable $e) {
-            Log::error('Error creating product: ' . $e->getMessage(), [
-                'exception' => $e,
-                'trace' => $e->getTraceAsString()
-            ]);
-
             $response = [
                 'success' => false,
                 'message' => config('app.debug') ? $e->getMessage() : 'An error occurred while creating the product',
@@ -118,11 +108,6 @@ class ProductController extends Controller
 
             return response()->json($product);
         } catch (Throwable $e) {
-            Log::error('Error fetching product: ' . $e->getMessage(), [
-                'exception' => $e,
-                'trace' => $e->getTraceAsString()
-            ]);
-
             $response = [
                 'success' => false,
                 'message' => config('app.debug') ? $e->getMessage() : 'An error occurred while fetching the product',
@@ -175,11 +160,6 @@ class ProductController extends Controller
 
             return response()->json($product);
         } catch (Throwable $e) {
-            Log::error('Error updating product: ' . $e->getMessage(), [
-                'exception' => $e,
-                'trace' => $e->getTraceAsString()
-            ]);
-
             $response = [
                 'success' => false,
                 'message' => config('app.debug') ? $e->getMessage() : 'An error occurred while updating the product',
@@ -239,4 +219,4 @@ class ProductController extends Controller
             return response()->json($response, 500);
         }
     }
-} 
+}
