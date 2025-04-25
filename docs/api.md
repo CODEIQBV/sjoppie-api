@@ -65,6 +65,225 @@ Errors are returned with appropriate HTTP status codes and follow this format:
 3. [Tags](tags.md)
    - [Tag Management](tags.md#tag-management)
 
+## Product Images
+
+### List Product Images
+```http
+GET /products/{product}/images
+```
+
+Response:
+```json
+{
+    "success": true,
+    "status": 200,
+    "data": [
+        {
+            "id": 1,
+            "product_id": 1,
+            "path": "https://example.com/image.jpg",
+            "alt_text": "Product image",
+            "order": 0,
+            "created_at": "2024-04-25T12:00:00Z",
+            "updated_at": "2024-04-25T12:00:00Z"
+        }
+    ],
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+
+### Create Product Image
+```http
+POST /products/{product}/images
+```
+
+Request:
+```json
+{
+    "path": "https://example.com/image.jpg",
+    "alt_text": "Product image",
+    "order": 0
+}
+```
+
+### Update Product Image
+```http
+PUT /products/{product}/images/{image}
+```
+
+Request:
+```json
+{
+    "path": "https://example.com/new-image.jpg",
+    "alt_text": "Updated product image",
+    "order": 1
+}
+```
+
+### Delete Product Image
+```http
+DELETE /products/{product}/images/{image}
+```
+
+### Reorder Product Images
+```http
+POST /products/{product}/images/reorder
+```
+
+Request:
+```json
+{
+    "image_ids": [1, 2, 3]
+}
+```
+
+## Product Prices
+
+### List Product Prices
+```http
+GET /products/{product}/prices
+```
+
+Response:
+```json
+{
+    "success": true,
+    "status": 200,
+    "data": [
+        {
+            "id": 1,
+            "price": 99.99,
+            "compare_at_price": 129.99,
+            "taxable": true,
+            "currency": "EUR",
+            "starts_at": "2024-04-25T00:00:00Z",
+            "ends_at": null,
+            "created_at": "2024-04-25T12:00:00Z",
+            "updated_at": "2024-04-25T12:00:00Z"
+        }
+    ],
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+
+### Get Current Price
+```http
+GET /products/{product}/prices/current
+```
+
+### Create Product Price
+```http
+POST /products/{product}/prices
+```
+
+Request:
+```json
+{
+    "price": 99.99,
+    "compare_at_price": 129.99,
+    "taxable": true,
+    "currency": "EUR",
+    "starts_at": "2024-04-25T00:00:00Z",
+    "ends_at": null
+}
+```
+
+### Update Product Price
+```http
+PUT /products/{product}/prices/{price}
+```
+
+Request:
+```json
+{
+    "price": 89.99,
+    "compare_at_price": 119.99,
+    "taxable": true,
+    "currency": "EUR",
+    "starts_at": "2024-04-25T00:00:00Z",
+    "ends_at": "2024-05-25T00:00:00Z"
+}
+```
+
+### Delete Product Price
+```http
+DELETE /products/{product}/prices/{price}
+```
+
+## Product Stock
+
+### Get Product Stock
+```http
+GET /products/{product}/stock
+```
+
+Response:
+```json
+{
+    "success": true,
+    "status": 200,
+    "data": {
+        "id": 1,
+        "available": 100,
+        "on_hand": 120,
+        "reserved": 20,
+        "created_at": "2024-04-25T12:00:00Z",
+        "updated_at": "2024-04-25T12:00:00Z"
+    },
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+
+### Update Product Stock
+```http
+PUT /products/{product}/stock
+```
+
+Request:
+```json
+{
+    "available": 100,
+    "on_hand": 120,
+    "reserved": 20
+}
+```
+
+### Update Available Stock
+```http
+PUT /products/{product}/stock/available
+```
+
+Request:
+```json
+{
+    "quantity": 100
+}
+```
+
+### Update On Hand Stock
+```http
+PUT /products/{product}/stock/on-hand
+```
+
+Request:
+```json
+{
+    "quantity": 120
+}
+```
+
+### Update Reserved Stock
+```http
+PUT /products/{product}/stock/reserved
+```
+
+Request:
+```json
+{
+    "quantity": 20
+}
+```
+
 ## Rate Limiting
 
 The API is rate-limited to prevent abuse. The current limits are:
