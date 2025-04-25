@@ -18,6 +18,7 @@ class Payment extends Model
         'amount',
         'currency',
         'description',
+        'order_id',
         'redirect_url',
         'webhook_url',
         'metadata',
