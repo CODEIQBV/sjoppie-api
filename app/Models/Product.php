@@ -60,12 +60,12 @@ class Product extends Model
 
     public function prices()
     {
-        return $this->hasMany(ProductPrice::class);
+        return $this->morphMany(ProductPrice::class, 'priceable');
     }
 
     public function stock()
     {
-        return $this->hasOne(ProductStock::class);
+        return $this->morphOne(ProductStock::class, 'stockable');
     }
 
     public function images()

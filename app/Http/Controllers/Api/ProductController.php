@@ -59,6 +59,43 @@ class ProductController extends Controller
                 'seo_description' => 'nullable|string',
                 'slug' => 'nullable|string|unique:products,slug',
                 'status' => 'required|in:active,concept',
+                
+                // Stock data
+                'stock' => 'nullable|array',
+                'stock.available' => 'nullable|integer|min:0',
+                'stock.on_hand' => 'nullable|integer|min:0',
+                'stock.reserved' => 'nullable|integer|min:0',
+                
+                // Price data
+                'price' => 'nullable|array',
+                'price.amount' => 'nullable|numeric|min:0',
+                'price.currency' => 'nullable|string|size:3',
+                
+                // Images data
+                'images' => 'nullable|array',
+                'images.*.url' => 'required|string|url',
+                'images.*.alt' => 'nullable|string|max:255',
+                'images.*.order' => 'nullable|integer|min:0',
+                
+                // Variants data
+                'variants' => 'nullable|array',
+                'variants.*.title' => 'required|string|max:255',
+                'variants.*.option1_name' => 'nullable|string|max:255',
+                'variants.*.option1_value' => 'nullable|string|max:255',
+                'variants.*.option2_name' => 'nullable|string|max:255',
+                'variants.*.option2_value' => 'nullable|string|max:255',
+                'variants.*.option3_name' => 'nullable|string|max:255',
+                'variants.*.option3_value' => 'nullable|string|max:255',
+                'variants.*.sku' => 'nullable|string|max:255',
+                'variants.*.barcode' => 'nullable|string|max:255',
+                
+                // Tags data
+                'tags' => 'nullable|array',
+                'tags.*' => 'required|string|max:255',
+                
+                // Categories data
+                'categories' => 'nullable|array',
+                'categories.*' => 'required|exists:categories,id',
             ]);
 
             if ($validator->fails()) {

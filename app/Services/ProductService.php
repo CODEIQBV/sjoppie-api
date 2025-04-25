@@ -56,7 +56,74 @@ class ProductService
             $data['slug'] = Str::slug($data['name']);
         }
 
-        return Product::create($data);
+        $product = Product::create($data);
+
+        // Create initial stock record if provided
+        if (isset($data['stock'])) {
+            $this->stockService->createStock($product, [
+                'available' => $data['stock']['available'] ?? 0,
+                'on_hand' => $data['stock']['on_hand'] ?? 0,
+                'reserved' => $data['stock']['reserved'] ?? 0,
+            ]);
+        }
+
+        // Create initial price record if provided
+        if (isset($data['price'])) {
+            $this->priceService->createPrice($product, [
+                'amount' => $data['price']['amount'] ?? 0,
+                'currency' => $data['price']['currency'] ?? 'EUR',
+                'starts_at' => now(),
+            ]);
+        }
+
+        // Create images if provided
+        if (isset($data['images'])) {
+            foreach ($data['images'] as $imageData) {
+                $this->imageService->createImage($product, $imageData);
+            }
+        }
+
+        // Create variants if provided
+        if (isset($data['variants'])) {
+            foreach ($data['variants'] as $variantData) {
+                $variant = $this->variantService->createVariant($product, $variantData);
+                
+                // Create stock for variant if provided
+                if (isset($variantData['stock'])) {
+                    $this->stockService->createStock($variant, [
+                        'available' => $variantData['stock']['available'] ?? 0,
+                        'on_hand' => $variantData['stock']['on_hand'] ?? 0,
+                        'reserved' => $variantData['stock']['reserved'] ?? 0,
+                    ]);
+                }
+                
+                // Create price for variant if provided
+                if (isset($variantData['price'])) {
+                    $this->priceService->createPrice($variant, [
+                        'amount' => $variantData['price']['amount'] ?? 0,
+                        'currency' => $variantData['price']['currency'] ?? 'EUR',
+                        'starts_at' => now(),
+                    ]);
+                }
+            }
+        }
+
+        // Sync tags if provided
+        if (isset($data['tags'])) {
+            $tagIds = [];
+            foreach ($data['tags'] as $tagName) {
+                $tag = $this->tagService->getTag($tagName) ?? $this->tagService->createTag(['name' => $tagName]);
+                $tagIds[] = $tag->id;
+            }
+            $this->syncTags($product, $tagIds);
+        }
+
+        // Sync categories if provided
+        if (isset($data['categories'])) {
+            $this->syncCategories($product, $data['categories']);
+        }
+
+        return $product->load(['stock', 'prices', 'images', 'variants', 'tags', 'categories']);
     }
 
     /**
