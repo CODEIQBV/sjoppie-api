@@ -56,6 +56,14 @@ class ProductService
             $data['slug'] = Str::slug($data['name']);
         }
 
+        // Handle duplicate slugs
+        $originalSlug = $data['slug'];
+        $counter = 1;
+        while (Product::where('slug', $data['slug'])->exists()) {
+            $data['slug'] = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
         $product = Product::create($data);
 
         // Create initial stock record if provided
