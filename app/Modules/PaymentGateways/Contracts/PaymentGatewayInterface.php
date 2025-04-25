@@ -2,6 +2,8 @@
 
 namespace App\Modules\PaymentGateways\Contracts;
 
+use App\Models\Payment;
+
 interface PaymentGatewayInterface
 {
     /**
@@ -34,4 +36,15 @@ interface PaymentGatewayInterface
      * Check if the payment gateway is properly configured
      */
     public function isConfigured(): bool;
+
+    /**
+     * Create a new payment
+     * @return array The payment response from the gateway
+     */
+    public function createPayment(Payment $payment): array;
+
+    /**
+     * Handle a webhook notification from the gateway
+     */
+    public function handleWebhook(Payment $payment, array $data): void;
 } 

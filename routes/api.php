@@ -11,7 +11,8 @@ use App\Http\Controllers\Api\{
     CustomerController,
     AddressController,
     StoreController,
-    PaymentGatewayController
+    PaymentGatewayController,
+    PaymentController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('payments/webhook/{gateway}', [PaymentController::class, 'webhook'])
+    ->name('api.payments.webhook');
 
 Route::middleware(['api.key', 'api.response'])->group(function () {
     // Store
@@ -82,4 +86,8 @@ Route::middleware(['api.key', 'api.response'])->group(function () {
     // Payment Gateways
     Route::get('payment-gateways/modules', [PaymentGatewayController::class, 'availableModules']);
     Route::apiResource('payment-gateways', PaymentGatewayController::class);
+
+    // Payment routes
+    Route::post('payments', [PaymentController::class, 'store']);
+    Route::get('payments/{id}', [PaymentController::class, 'show']);
 });

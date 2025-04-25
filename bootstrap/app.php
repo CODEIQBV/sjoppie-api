@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
             'api.response' => \App\Http\Middleware\ApiResponseMiddleware::class,
         ]);
+
+        $middleware->validateCsrfTokens(except: [
+            'v1/payments/webhook*'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
