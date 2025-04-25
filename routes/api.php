@@ -9,7 +9,8 @@ use App\Http\Controllers\Api\{
     CategoryController,
     TagController,
     CustomerController,
-    AddressController
+    AddressController,
+    StoreController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['api.key', 'api.response'])->group(function () {
+    // Store
+    Route::get('store', [StoreController::class, 'show']);
+    Route::put('store', [StoreController::class, 'update']);
+
     // Products
     Route::apiResource('products', ProductController::class);
 
