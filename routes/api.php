@@ -10,7 +10,8 @@ use App\Http\Controllers\Api\{
     TagController,
     CustomerController,
     AddressController,
-    StoreController
+    StoreController,
+    PaymentGatewayController
 };
 use Illuminate\Support\Facades\Route;
 
@@ -77,4 +78,8 @@ Route::middleware(['api.key', 'api.response'])->group(function () {
         Route::apiResource('addresses', AddressController::class);
         Route::get('addresses/default/{type}', [AddressController::class, 'getDefault']);
     });
+
+    // Payment Gateways
+    Route::get('payment-gateways/modules', [PaymentGatewayController::class, 'availableModules']);
+    Route::apiResource('payment-gateways', PaymentGatewayController::class);
 });
