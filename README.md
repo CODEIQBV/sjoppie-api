@@ -1,15 +1,5 @@
-#  ███████╗     ██╗  ██████╗ ██████╗ ██████╗ ██████╗ ██╗███████╗
-#  ██╔════╝     ██║ ██╔═══██╗██╔══██╗██╔══██╗██╔══██╗██║██╔════╝
-#  ███████╗     ██║ ██║   ██║██████╔╝██████╔╝██████╔╝██║█████╗  
-#  ╚════██║██   ██║ ██║   ██║██╔═══╝ ██╔═══╝ ██╔═══╝ ██║██╔══╝  
-#  ███████║╚█████╔╝ ╚██████╔╝██║     ██║     ██║     ██║███████╗
-#  ╚══════╝ ╚════╝   ╚═════╝ ╚═╝     ╚═╝     ╚═╝     ╚═╝╚══════╝
-#  █████╗ ██████╗ ██╗
-#  ██╔══██╗██╔══██╗██║
-#  ███████║██████╔╝██║
-#  ██╔══██║██╔═══╝ ██║
-#  ██║  ██║██║     ██║
-#  ╚═╝  ╚═╝╚═╝     ╚═╝
+# SJOPPIE API
+> E-commerce Backend System
 
 [![Latest Version](https://img.shields.io/github/v/release/CODEIQBV/sjoppie-api?style=flat-square)](https://github.com/CODEIQBV/sjoppie-api/releases)
 [![License](https://img.shields.io/github/license/CODEIQBV/sjoppie-api?style=flat-square)](LICENSE.md)
