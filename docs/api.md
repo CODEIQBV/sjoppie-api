@@ -6,11 +6,51 @@ The Sjoppie API provides a comprehensive set of endpoints for managing products,
 
 ## Authentication
 
-All API requests require an API key to be included in the request header:
+The API uses a two-factor authentication system:
 
-```
-X-API-Key: your-api-key
-```
+1. **API Key Authentication**
+   All API requests require an API key to be included in the request header:
+   ```
+   X-API-Key: your-api-key
+   ```
+
+2. **User Authentication**
+   Most endpoints require user authentication using a Bearer token. To get a token:
+   
+   1. First, login using the authentication endpoint:
+   ```http
+   POST /auth/login
+   ```
+   Request:
+   ```json
+   {
+       "email": "user@example.com",
+       "password": "your-password"
+   }
+   ```
+   Response:
+   ```json
+   {
+       "success": true,
+       "status": 200,
+       "data": {
+           "user": {
+               "id": 1,
+               "name": "John Doe",
+               "email": "user@example.com"
+           },
+           "token": "your-bearer-token"
+       },
+       "timestamp": "2024-04-25T12:00:00Z"
+   }
+   ```
+
+   2. Include the received token in subsequent requests:
+   ```
+   Authorization: Bearer your-bearer-token
+   ```
+
+   Note: The login and logout endpoints only require the API key, not the Bearer token.
 
 ## Base URL
 
@@ -45,6 +85,32 @@ Errors are returned with appropriate HTTP status codes and follow this format:
     "errors": {
         // Validation errors if applicable
     },
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+
+Common authentication errors:
+```json
+{
+    "success": false,
+    "status": 401,
+    "message": "Missing authentication token",
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+```json
+{
+    "success": false,
+    "status": 401,
+    "message": "Invalid or expired token",
+    "timestamp": "2024-04-25T12:00:00Z"
+}
+```
+```json
+{
+    "success": false,
+    "status": 401,
+    "message": "Invalid API key",
     "timestamp": "2024-04-25T12:00:00Z"
 }
 ```

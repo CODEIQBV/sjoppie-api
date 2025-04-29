@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
             'api.response' => \App\Http\Middleware\ApiResponseMiddleware::class,
+            'auth.token' => \App\Http\Middleware\AuthTokenMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

@@ -4,6 +4,7 @@ namespace App\Modules\PaymentGateways\Mollie;
 
 use App\Models\Payment;
 use App\Modules\PaymentGateways\AbstractPaymentGateway;
+use Mollie\Api\Exceptions\ApiException;
 use Mollie\Laravel\Facades\Mollie;
 
 class MolliePaymentGateway extends AbstractPaymentGateway
@@ -36,16 +37,19 @@ class MolliePaymentGateway extends AbstractPaymentGateway
         ];
     }
 
+    /**
+     * @throws ApiException
+     */
     public function initialize(array $configuration): void
     {
         // Ensure we have the test mode flag
         $configuration['is_test_mode'] = $configuration['is_test_mode'] ?? true;
-        
+
         // Initialize parent with full configuration
         parent::initialize($configuration);
-        
+
         // Get the appropriate API key based on test mode
-        $apiKey = $this->isTestMode() 
+        $apiKey = $this->isTestMode()
             ? $this->getConfigValue('test_api_key')
             : $this->getConfigValue('live_api_key');
 
@@ -112,4 +116,4 @@ class MolliePaymentGateway extends AbstractPaymentGateway
             ),
         ]);
     }
-} 
+}
